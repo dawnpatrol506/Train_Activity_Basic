@@ -1,0 +1,25 @@
+.card{
+    padding: 0px;
+}
+
+.card-header{
+    background-color: #337ab7;
+    color: white;
+}
+
+.jumbotron{
+    background-color: #7f462c;
+    color: white;
+}
+
+form{
+    padding: 3px;
+}
+
+label{
+    font-weight: 600;
+}
+
+.row{
+    margin-bottom: 18px;
+}
