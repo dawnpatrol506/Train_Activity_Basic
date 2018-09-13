@@ -31,7 +31,7 @@ $(document).ready(function () {
             time.val('');
             frequency.val('');
         }
-        let rows = $('.removable');
+        let rows = $('.train-instance');
         rows.toArray().forEach(row => row.remove());
         trainRef.once('value').then(snap =>
             snap.forEach(childSnap => populateTrainData(childSnap)));
@@ -49,7 +49,7 @@ $(document).ready(function () {
         snap.forEach(childSnap => populateTrainData(childSnap)));
 
     setInterval(function () {
-        let rows = $('.removable');
+        let rows = $('.train-instance');
         rows.toArray().forEach(row => row.remove());
         console.log(rows.toArray());
 
@@ -57,22 +57,10 @@ $(document).ready(function () {
             .then(snap => {
                 snap.forEach(childSnap => populateTrainData(childSnap));
             });
-    }, 30000);
-
-
-
-    // trainRef.on('value', snap => {
-    //     let rows = $('.removable');
-
-    //     rows.toArray().forEach(row => row.remove());
-
-    //     snap.forEach(childSnap => {
-    //         populateTrainData(childSnap);
-    //     });
-    // });
+    }, 60000);
 
     function populateTrainData(childSnap) {
-        var newTrain = $('<tr class="removable">');
+        var newTrain = $('<tr class="train-instance">');
         var newName = $('<td>' + childSnap.val().name + '</td>');
         var newDest = $('<td>' + childSnap.val().destination + '</td>');
         var newFreq = $('<td>' + childSnap.val().frequency + '</td>');
@@ -144,8 +132,5 @@ $(document).ready(function () {
             return { time: newDate, minsAway: mins };
         }
     }
-
-
-
 
 });
