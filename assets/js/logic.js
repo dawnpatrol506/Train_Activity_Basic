@@ -26,21 +26,53 @@ $(document).ready(function () {
                 time: time.val(),
                 frequency: frequency.val()
             });
+            name.val('');
+            destination.val('');
+            time.val('');
+            frequency.val('');
         }
-    });
-
-    trainRef.on('value', snap => {
         let rows = $('.removable');
-
         rows.toArray().forEach(row => row.remove());
+        trainRef.once('value').then(snap =>
+            snap.forEach(childSnap => populateTrainData(childSnap)));
 
-        snap.forEach(childSnap => {
-            populateTrainData(childSnap);
-        });
     });
+
+    setInterval(function () {
+        var currentTime = new Date();
+        currentTime = formatHours(currentTime.getHours()) + ':' + formatHours(currentTime.getMinutes()) + ':' + formatHours(currentTime.getSeconds());
+        $('#current-time').text(currentTime);
+    }, 1000);
+
+
+    trainRef.once('value').then(snap =>
+        snap.forEach(childSnap => populateTrainData(childSnap)));
+
+    setInterval(function () {
+        let rows = $('.removable');
+        rows.toArray().forEach(row => row.remove());
+        console.log(rows.toArray());
+
+        trainRef.once('value')
+            .then(snap => {
+                snap.forEach(childSnap => populateTrainData(childSnap));
+            });
+    }, 30000);
+
+
+
+    // trainRef.on('value', snap => {
+    //     let rows = $('.removable');
+
+    //     rows.toArray().forEach(row => row.remove());
+
+    //     snap.forEach(childSnap => {
+    //         populateTrainData(childSnap);
+    //     });
+    // });
 
     function populateTrainData(childSnap) {
-        var newTrain = $('<tr class="removeable">');
+        var newTrain = $('<tr class="removable">');
         var newName = $('<td>' + childSnap.val().name + '</td>');
         var newDest = $('<td>' + childSnap.val().destination + '</td>');
         var newFreq = $('<td>' + childSnap.val().frequency + '</td>');
